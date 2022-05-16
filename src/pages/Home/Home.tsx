@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import './styles.scss'
-import useProductList from "hooks/useProductList"
+import useProductList from "../../hooks/useProductList"
 
 const Home = () => {
 
@@ -42,7 +42,7 @@ const Home = () => {
 
       <div className="list_container">
         {products.map(product => {
-          const { sku, name, price, size, weight, dimensions } = product
+          const { sku, name, price, weight, size, dimensions } = product
 
           return (
             <div
