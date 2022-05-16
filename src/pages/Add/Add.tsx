@@ -1,13 +1,52 @@
-import React from "react"
+import
+React,
+{ useState }
+  from "react"
 import './styles.scss'
+import { Product } from "hooks/types";
 
 const Add = () => {
+
+  const [product, setProduct] = useState<Product>(
+    {
+      sku: '',
+      name: '',
+      price: 0,
+      weight: undefined,
+      size: undefined,
+      dimensions: undefined
+    })
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+
+    // use sql to add product to database
+    const addToDatabase = () => {
+      // add to database
+    }
+  }
+
+  const handleChange = (event: any) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setProduct(product => ({
+      ...product,
+      [name]: value
+    }))
+  }
+
   return (
     <div className="addproduct">
       <div className="header">
         <h1>Product Add</h1>
         <div>
-          <button>SAVE</button>
+          <button
+            type="submit"
+            form="add-product-form"
+            onClick={handleSubmit}
+          >
+            SAVE
+          </button>
           <button
             id='delete-product-btn'
             className="cancel_button"
@@ -20,15 +59,27 @@ const Add = () => {
         <form id="product_form">
           <label>
             SKU
-            <input id="sku"/>
+            <input
+              id="sku"
+              name="sku"
+              placeholder="#sku"
+              value={product.sku}
+              onChange={handleChange}
+            />
           </label>
           <label>
             Name
-            <input id="name"/>
+            <input
+              id="name"
+              placeholder="#name"
+            />
           </label>
           <label>
             Price ($)
-            <input id="price"/>
+            <input
+              id="price"
+              placeholder="#price"
+            />
           </label>
           <label className="select_label">
             Type switcher
@@ -38,7 +89,7 @@ const Add = () => {
               <option>Book</option>
             </select>
           </label>
-          
+
         </form>
       </div>
     </div>
