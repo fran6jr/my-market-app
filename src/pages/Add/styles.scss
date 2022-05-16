@@ -1,0 +1,41 @@
+.addproduct {
+  max-width: 1200px;
+  margin: auto;
+  padding: 30px 30px;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+
+    button {
+      box-shadow: 2px 2px black;
+    }
+  
+    .cancel_button {
+      margin-left: 10px;
+    }
+  }
+
+  .form_container {
+    margin-top: 30px;
+
+    label {
+      width: 400px;
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      margin-bottom: 10px;
+    }
+
+    .select_label {
+      margin-top: 50px;
+      display: block;
+
+      select {
+        margin-left: 30px;
+      }
+    }
+  }
+}
