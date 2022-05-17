@@ -4,9 +4,11 @@ export type Product = {
   price: number
   weight?: number
   size?: number
-  dimensions?: {
+  dimensions?: Dimension
+}
+
+export type Dimension = {
     width: number,
     height: number,
     length: number
-  }
 }

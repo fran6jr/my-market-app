@@ -1,6 +1,6 @@
 import
 React,
-{ useState }
+{ useState, useEffect }
   from "react"
 import './styles.scss'
 import { Product } from "hooks/types";
@@ -26,6 +26,12 @@ const Add = () => {
     }
   }
 
+  //useeffect to console log product when it changes
+  useEffect(() => {
+    console.log(product)
+  }, [product])
+  
+
   const handleChange = (event: any) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -35,6 +41,13 @@ const Add = () => {
     }))
   }
 
+  //renders the correct input fields based on the product type
+  //TODO: make this dynamic and avoid the use of conditional statements at all cost
+  const renderInputFields = () => {
+    const { weight, size, dimensions } = product;
+
+    // onchange, let it use the handleChange function
+  }
   return (
     <div className="addproduct">
       <div className="header">
@@ -48,7 +61,7 @@ const Add = () => {
             SAVE
           </button>
           <button
-            id='delete-product-btn'
+            id='#cancel-btn'
             className="cancel_button"
           >
             CANCEL
@@ -56,11 +69,11 @@ const Add = () => {
         </div>
       </div>
       <div className="form_container">
-        <form id="product_form">
+        <form id="#product_form">
           <label>
             SKU
             <input
-              id="sku"
+              id="#sku"
               name="sku"
               placeholder="#sku"
               value={product.sku}
@@ -70,23 +83,44 @@ const Add = () => {
           <label>
             Name
             <input
-              id="name"
+              id="#name"
+              name="name"
               placeholder="#name"
+              value={product.name}
+              onChange={handleChange}
             />
           </label>
           <label>
             Price ($)
             <input
-              id="price"
+              id="#price"
+              name="price"
               placeholder="#price"
+              value={product.price===0 ? '': product.price}
+              onChange={handleChange}
             />
           </label>
           <label className="select_label">
             Type switcher
-            <select>
-              <option>DVD</option>
-              <option>Furniture</option>
-              <option>Book</option>
+            <select
+              id="#productType"
+              onChange={renderInputFields}  //renders the correct input fields
+            >
+              <option
+                value="dvd"
+              >
+                DVD
+              </option>
+              <option
+                value="furniture"
+              >
+                Furniture
+              </option>
+              <option
+                value="book"
+              >
+                Book
+              </option>
             </select>
           </label>
 

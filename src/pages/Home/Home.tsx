@@ -31,7 +31,7 @@ const Home = () => {
             <button>ADD</button>
           </Link>
           <button
-            id='delete-product-btn'
+            id='#delete-product-btn'
             className="delete_button"
             onClick={onMassDelete}
           >
