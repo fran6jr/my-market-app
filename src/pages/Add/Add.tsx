@@ -11,11 +11,13 @@ const Add = () => {
     {
       sku: '',
       name: '',
-      price: 0,
+      price: undefined,
       weight: undefined,
       size: undefined,
       dimensions: undefined
     })
+
+  const [productType, setProductType] = useState<string>('')
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -30,23 +32,19 @@ const Add = () => {
   useEffect(() => {
     console.log(product)
   }, [product])
-  
+
 
   const handleChange = (event: any) => {
-    const name = event.target.name;
-    const value = event.target.value;
+    const { name, value } = event.target;
     setProduct(product => ({
       ...product,
       [name]: value
     }))
   }
 
-  //renders the correct input fields based on the product type
-  //TODO: make this dynamic and avoid the use of conditional statements at all cost
-  const renderInputFields = () => {
-    const { weight, size, dimensions } = product;
-
-    // onchange, let it use the handleChange function
+  const handleProductType = (event: any) => {
+    const { value } = event.target;
+    setProductType(value)
   }
   return (
     <div className="addproduct">
@@ -75,6 +73,7 @@ const Add = () => {
             <input
               id="#sku"
               name="sku"
+              type="text"
               placeholder="#sku"
               value={product.sku}
               onChange={handleChange}
@@ -85,6 +84,7 @@ const Add = () => {
             <input
               id="#name"
               name="name"
+              type="text"
               placeholder="#name"
               value={product.name}
               onChange={handleChange}
@@ -95,16 +95,19 @@ const Add = () => {
             <input
               id="#price"
               name="price"
+              type="number"
               placeholder="#price"
-              value={product.price===0 ? '': product.price}
+              value={product.price}
               onChange={handleChange}
             />
           </label>
           <label className="select_label">
             Type switcher
             <select
+              name="productType"
               id="#productType"
-              onChange={renderInputFields}  //renders the correct input fields
+              value={productType}
+              onChange={handleProductType}
             >
               <option
                 value="dvd"
@@ -123,6 +126,85 @@ const Add = () => {
               </option>
             </select>
           </label>
+
+          {productType === "dvd" &&
+            <div id="#DVD">
+              <p>
+                This select option should have an id: #DVD
+              </p>
+              <label>
+                Size (MB)
+                <input
+                  id="#size"
+                  name="size"
+                  type="number"
+                  placeholder="#size"
+                  value={product.size}
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
+          }
+
+          {productType === "furniture" &&
+            <div id="#Furniture">
+              <p>
+                This select option should have an id: #Furniture
+              </p>
+              <label>
+                Height (CM)
+                <input
+                  id="#height"
+                  name="height"
+                  type="number"
+                  placeholder="#height"
+                  value={product.dimensions?.height}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                Width (CM)
+                <input
+                  id="#width"
+                  name="width"
+                  type="number"
+                  placeholder="#width"
+                  value={product.dimensions?.width}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                Length (cm)
+                <input
+                  id="#length"
+                  name="length"
+                  type="number"
+                  placeholder="#length"
+                  value={product.dimensions?.length}
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
+          }
+
+          {productType === "book" &&
+            <div id="#Book">
+              <p>
+                This select option should have an id: #Book
+              </p>
+              <label>
+                Weight (CM)
+                <input
+                  id="#weight"
+                  name="weight"
+                  type="number"
+                  placeholder="#weight"
+                  value={product.weight}
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
+          }
 
         </form>
       </div>
