@@ -28,7 +28,6 @@ const Add = () => {
     }
   }
 
-  //useeffect to console log product when it changes
   useEffect(() => {
     console.log(product)
   }, [product])
@@ -159,7 +158,7 @@ const Add = () => {
 
             {productType === "furniture" &&
               <div id="#Furniture"
-              className="furniture_form">
+                className="furniture_form">
                 <p>
                   This select option should have an id: #Furniture
                 </p>
@@ -186,7 +185,7 @@ const Add = () => {
                   />
                 </label>
                 <label>
-                  Length (cm)
+                  Length (CM)
                   <input
                     id="#length"
                     name="length"
@@ -204,12 +203,12 @@ const Add = () => {
 
             {productType === "book" &&
               <div id="#Book"
-              className="book_form">
+                className="book_form">
                 <p>
                   This select option should have an id: #Book
                 </p>
                 <label>
-                  Weight (CM)
+                  Weight (KG)
                   <input
                     id="#weight"
                     name="weight"
@@ -228,6 +227,10 @@ const Add = () => {
 
         </form>
       </div>
+      <p>
+        "NOTE: When Weight is active, all aspects of dimension should be null, same as with DVD"
+      </p>
+
     </div>
   )
 }

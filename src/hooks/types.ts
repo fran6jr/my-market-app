@@ -8,7 +8,7 @@ export type Product = {
 }
 
 export type Dimension = {
-    width: number,
-    height: number,
+    width: number
+    height: number
     length: number
 }
