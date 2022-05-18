@@ -42,7 +42,7 @@ $myBorder: 1px solid black;
       label {
         display: flex;
         margin-bottom: 10px;
-        width: 300px;
+        width: 275px;
 
         input {
           margin-left: 5%;
@@ -61,13 +61,17 @@ $myBorder: 1px solid black;
         padding: 15px;
         height: 160px;
         width: 275px;
+
+        label {
+          justify-content: space-between;
+        }
       }
 
       .book_form {
         border: $myBorder;
         padding: 15px;
         height: 96px;
-        width: 275px;
+        width: 268px;
       }
 
     }
@@ -77,7 +81,7 @@ $myBorder: 1px solid black;
       display: block;
 
       select {
-        margin-left: 30px;
+        margin-left: 20px;
       }
     }
   }
