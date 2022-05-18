@@ -5,6 +5,7 @@ export type Product = {
   weight?: number
   size?: number
   dimensions?: Dimension
+  [key: string]: any
 }
 
 export type Dimension = {
@@ -12,3 +13,5 @@ export type Dimension = {
     height: number
     length: number
 }
+
+export type ProductType = "dvd" | "book" | "furniture"

@@ -3,7 +3,67 @@ React,
 { useState, useEffect }
   from "react"
 import './styles.scss'
-import { Product } from "hooks/types";
+import { Product, ProductType } from "hooks/types";
+
+interface ProductForm {
+  type: ProductType
+  name: string
+  fields: {
+    label: string
+    name: string
+    inputId: string
+  }[]
+}
+
+const p: ProductForm[] = [
+  {
+    type: "dvd",
+    name: 'size"',
+    fields: [
+      {
+        label: 'Size (MB)',
+        name: 'size',
+        inputId: 'size',
+      }
+    ],
+  },
+  {
+    type: "furniture",
+    name: 'dimensions',
+    fields: [
+      {
+        label: 'Height (CM)',
+        name: 'height',
+        inputId: 'height',
+      },
+      {
+        label: 'Width (CM)',
+        name: 'width',
+        inputId: 'width',
+      },
+      {
+        label: 'Length (CM)',
+        name: 'length',
+        inputId: 'length',
+      },
+    ],
+  },
+  {
+    type: "book",
+    name: 'weight',
+    fields: [
+      {
+        label: 'Weight (KG)',
+        name: 'weight',
+        inputId: 'weight',
+      }
+    ],
+  }
+]
+
+
+
+
 
 const Add = () => {
 
@@ -17,7 +77,7 @@ const Add = () => {
       dimensions: undefined
     })
 
-  const [productType, setProductType] = useState<string>('')
+  const [productType, setProductType] = useState<ProductType>()
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -41,10 +101,31 @@ const Add = () => {
     }))
   }
 
+  const handleChange2 = (field: string) => (event: any) => {
+    const { name, value } = event.target;
+    if (field === "dimensions") {
+      setProduct(product => ({
+        ...product,
+        dimensions: {
+          ...(product.dimensions || {}),
+          [name]: value
+        }
+      } as any))
+      return
+    }
+    setProduct(product => ({
+      ...product,
+      [field]: value
+    }))
+  }
+
   const handleProductType = (event: any) => {
     const { value } = event.target;
     setProductType(value)
   }
+
+  const formFields = p.find(p => p.type === productType)
+
   return (
     <div className="addproduct">
       <div className="header">
@@ -66,14 +147,14 @@ const Add = () => {
         </div>
       </div>
       <div className="form_container">
-        <form id="#product_form">
+        <form id="product_form">
           <label>
             SKU
             <input
-              id="#sku"
+              id="sku"
               name="sku"
               type="text"
-              placeholder="#sku"
+              placeholder="sku"
               value={product.sku}
               onChange={handleChange}
             />
@@ -81,10 +162,10 @@ const Add = () => {
           <label>
             Name
             <input
-              id="#name"
+              id="name"
               name="name"
               type="text"
-              placeholder="#name"
+              placeholder="name"
               value={product.name}
               onChange={handleChange}
             />
@@ -92,10 +173,10 @@ const Add = () => {
           <label>
             Price ($)
             <input
-              id="#price"
+              id="price"
               name="price"
               type="number"
-              placeholder="#price"
+              placeholder="price"
               value={product.price}
               onChange={handleChange}
             />
@@ -104,7 +185,7 @@ const Add = () => {
             Type switcher
             <select
               name="productType"
-              id="#productType"
+              id="productType"
               value={productType}
               onChange={handleProductType}
             >
@@ -114,117 +195,45 @@ const Add = () => {
                 Type Switcher
               </option>
               <option
+                id="DVD"
                 value="dvd"
               >
                 DVD
               </option>
               <option
+                id="Furniture"
                 value="furniture"
               >
                 Furniture
               </option>
               <option
+                id="Book"
                 value="book"
               >
                 Book
               </option>
             </select>
           </label>
-
-          <div className="product_form">
-            {productType === "dvd" &&
-              <div
-                id="#DVD"
-                className="dvd_form">
-                <p>
-                  This select option should have an id: #DVD
-                </p>
-                <label>
-                  Size (MB)
+          {formFields &&
+            <div
+              className="dvd_form product_form" >
+              {formFields?.fields.map(field => (
+                <label key={field.inputId}>
+                  {field.label}
                   <input
-                    id="#size"
-                    name="size"
+                    id={field.inputId}
+                    name={field.name}
                     type="number"
-                    placeholder="#size"
-                    value={product.size}
-                    onChange={handleChange}
+                    value={product[formFields.name]}
+                    onChange={handleChange2(formFields.name)}
                   />
                 </label>
-                <p>
-                  "Product description"
-                </p>
-              </div>
-            }
-
-            {productType === "furniture" &&
-              <div id="#Furniture"
-                className="furniture_form">
-                <p>
-                  This select option should have an id: #Furniture
-                </p>
-                <label>
-                  Height (CM)
-                  <input
-                    id="#height"
-                    name="height"
-                    type="number"
-                    placeholder="#height"
-                    value={product.dimensions?.height}
-                    onChange={handleChange}
-                  />
-                </label>
-                <label>
-                  Width (CM)
-                  <input
-                    id="#width"
-                    name="width"
-                    type="number"
-                    placeholder="#width"
-                    value={product.dimensions?.width}
-                    onChange={handleChange}
-                  />
-                </label>
-                <label>
-                  Length (CM)
-                  <input
-                    id="#length"
-                    name="length"
-                    type="number"
-                    placeholder="#length"
-                    value={product.dimensions?.length}
-                    onChange={handleChange}
-                  />
-                </label>
-                <p>
-                  "Product description"
-                </p>
-              </div>
-            }
-
-            {productType === "book" &&
-              <div id="#Book"
-                className="book_form">
-                <p>
-                  This select option should have an id: #Book
-                </p>
-                <label>
-                  Weight (KG)
-                  <input
-                    id="#weight"
-                    name="weight"
-                    type="number"
-                    placeholder="#weight"
-                    value={product.weight}
-                    onChange={handleChange}
-                  />
-                </label>
-                <p>
-                  "Product description"
-                </p>
-              </div>
-            }
-          </div>
-
+              ))}
+              <p>
+                "Product description"
+              </p>
+            </div>
+          }
         </form>
       </div>
       <p>
