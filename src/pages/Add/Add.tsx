@@ -22,7 +22,7 @@ const Add = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    // use sql to add product to database
+    // use php to add product to database
     const addToDatabase = () => {
       // add to database
     }
@@ -110,6 +110,11 @@ const Add = () => {
               onChange={handleProductType}
             >
               <option
+                value="typeswitcher"
+              >
+                Type Switcher
+              </option>
+              <option
                 value="dvd"
               >
                 DVD
@@ -127,84 +132,99 @@ const Add = () => {
             </select>
           </label>
 
-          {productType === "dvd" &&
-            <div id="#DVD">
-              <p>
-                This select option should have an id: #DVD
-              </p>
-              <label>
-                Size (MB)
-                <input
-                  id="#size"
-                  name="size"
-                  type="number"
-                  placeholder="#size"
-                  value={product.size}
-                  onChange={handleChange}
-                />
-              </label>
-            </div>
-          }
+          <div className="product_form">
+            {productType === "dvd" &&
+              <div
+                id="#DVD"
+                className="dvd_form">
+                <p>
+                  This select option should have an id: #DVD
+                </p>
+                <label>
+                  Size (MB)
+                  <input
+                    id="#size"
+                    name="size"
+                    type="number"
+                    placeholder="#size"
+                    value={product.size}
+                    onChange={handleChange}
+                  />
+                </label>
+                <p>
+                  "Product description"
+                </p>
+              </div>
+            }
 
-          {productType === "furniture" &&
-            <div id="#Furniture">
-              <p>
-                This select option should have an id: #Furniture
-              </p>
-              <label>
-                Height (CM)
-                <input
-                  id="#height"
-                  name="height"
-                  type="number"
-                  placeholder="#height"
-                  value={product.dimensions?.height}
-                  onChange={handleChange}
-                />
-              </label>
-              <label>
-                Width (CM)
-                <input
-                  id="#width"
-                  name="width"
-                  type="number"
-                  placeholder="#width"
-                  value={product.dimensions?.width}
-                  onChange={handleChange}
-                />
-              </label>
-              <label>
-                Length (cm)
-                <input
-                  id="#length"
-                  name="length"
-                  type="number"
-                  placeholder="#length"
-                  value={product.dimensions?.length}
-                  onChange={handleChange}
-                />
-              </label>
-            </div>
-          }
+            {productType === "furniture" &&
+              <div id="#Furniture"
+              className="furniture_form">
+                <p>
+                  This select option should have an id: #Furniture
+                </p>
+                <label>
+                  Height (CM)
+                  <input
+                    id="#height"
+                    name="height"
+                    type="number"
+                    placeholder="#height"
+                    value={product.dimensions?.height}
+                    onChange={handleChange}
+                  />
+                </label>
+                <label>
+                  Width (CM)
+                  <input
+                    id="#width"
+                    name="width"
+                    type="number"
+                    placeholder="#width"
+                    value={product.dimensions?.width}
+                    onChange={handleChange}
+                  />
+                </label>
+                <label>
+                  Length (cm)
+                  <input
+                    id="#length"
+                    name="length"
+                    type="number"
+                    placeholder="#length"
+                    value={product.dimensions?.length}
+                    onChange={handleChange}
+                  />
+                </label>
+                <p>
+                  "Product description"
+                </p>
+              </div>
+            }
 
-          {productType === "book" &&
-            <div id="#Book">
-              <p>
-                This select option should have an id: #Book
-              </p>
-              <label>
-                Weight (CM)
-                <input
-                  id="#weight"
-                  name="weight"
-                  type="number"
-                  placeholder="#weight"
-                  value={product.weight}
-                  onChange={handleChange}
-                />
-              </label>
-            </div>
-          }
+            {productType === "book" &&
+              <div id="#Book"
+              className="book_form">
+                <p>
+                  This select option should have an id: #Book
+                </p>
+                <label>
+                  Weight (CM)
+                  <input
+                    id="#weight"
+                    name="weight"
+                    type="number"
+                    placeholder="#weight"
+                    value={product.weight}
+                    onChange={handleChange}
+                  />
+                </label>
+                <p>
+                  "Product description"
+                </p>
+              </div>
+            }
+          </div>
 
         </form>
       </div>
