@@ -8,6 +8,7 @@ import { Product, ProductType } from "hooks/types";
 interface ProductForm {
   type: ProductType
   name: string
+  description: string
   fields: {
     label: string
     name: string
@@ -19,6 +20,7 @@ const p: ProductForm[] = [
   {
     type: "dvd",
     name: 'size"',
+    description: "Please, provide size",
     fields: [
       {
         label: 'Size (MB)',
@@ -30,6 +32,7 @@ const p: ProductForm[] = [
   {
     type: "furniture",
     name: 'dimensions',
+    description: "Please, provide dimensions",
     fields: [
       {
         label: 'Height (CM)',
@@ -51,6 +54,7 @@ const p: ProductForm[] = [
   {
     type: "book",
     name: 'weight',
+    description: "Please, provide weight",
     fields: [
       {
         label: 'Weight (KG)',
@@ -87,6 +91,8 @@ const Add = () => {
       // add to database
     }
   }
+
+
 
   useEffect(() => {
     console.log(product)
@@ -215,7 +221,7 @@ const Add = () => {
           </label>
           {formFields &&
             <div
-              className="dvd_form product_form" >
+              className="product_form" >
               {formFields?.fields.map(field => (
                 <label key={field.inputId}>
                   {field.label}
@@ -229,7 +235,7 @@ const Add = () => {
                 </label>
               ))}
               <p>
-                "Product description"
+                {formFields.description}
               </p>
             </div>
           }
@@ -237,6 +243,12 @@ const Add = () => {
       </div>
       <p>
         "NOTE: When Weight is active, all aspects of dimension should be null, same as with DVD"
+        </p><p># All fields are mandatory for submission, missing values should trigger notification “Please, submit required data”
+        </p><p># Implement input field value validation, invalid data must trigger notification “Please, provide the data of indicated type”
+        </p><p># Notification messages should appear on the same page without reloading
+        </p><p># The page must have a “Save” button to save the product. Once saved, return to the “Product List” page with the new product added.
+        </p><p># The page must have a “Cancel” button to cancel adding the product action. Once canceled, returned to the “Product List” page with no new products added.
+        </p><p># No additional dialogues like “Are you sure you want to Save / Cancel?”
       </p>
 
     </div>

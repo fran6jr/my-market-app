@@ -33,45 +33,21 @@ $myBorder: 1px solid black;
 
     .product_form {
       margin-top: 30px;
+      border: $myBorder;
+        padding: 15px;
+        height: fit-content;
+        width: fit-content;
 
       p {
+        margin-top: 10px;
         font-size: 13px;
         width: 240px;
       }
 
       label {
         display: flex;
-        margin-bottom: 10px;
-        width: 275px;
-
-        input {
-          margin-left: 5%;
-        }
-      }
-
-      .dvd_form {
-        border: $myBorder;
-        padding: 15px;
-        height: 96px;
-        width: 250px;
-      }
-
-      .furniture_form {
-        border: $myBorder;
-        padding: 15px;
-        height: 160px;
-        width: 275px;
-
-        label {
-          justify-content: space-between;
-        }
-      }
-
-      .book_form {
-        border: $myBorder;
-        padding: 15px;
-        height: 96px;
-        width: 268px;
+        width: 265px;
+        justify-content: space-between;
       }
 
     }
