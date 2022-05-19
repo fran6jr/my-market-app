@@ -92,16 +92,7 @@ const Add = () => {
     console.log(product)
   }, [product])
 
-
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
-    setProduct(product => ({
-      ...product,
-      [name]: value
-    }))
-  }
-
-  const handleChange2 = (field: string) => (event: any) => {
+  const handleChange = (event: any, field = '') => {
     const { name, value } = event.target;
     if (field === "dimensions") {
       setProduct(product => ({
@@ -115,13 +106,21 @@ const Add = () => {
     }
     setProduct(product => ({
       ...product,
-      [field]: value
+      [field || name]: value
     }))
   }
 
   const handleProductType = (event: any) => {
     const { value } = event.target;
     setProductType(value)
+  }
+
+  const getValue = (field: string, name: string) => {
+
+    if (field === "dimensions") {
+      return product.dimensions ? product.dimensions[name] : ''
+    }
+    return product[field || name]
   }
 
   const formFields = p.find(p => p.type === productType)
@@ -224,8 +223,8 @@ const Add = () => {
                     id={field.inputId}
                     name={field.name}
                     type="number"
-                    value={product[formFields.name]}
-                    onChange={handleChange2(formFields.name)}
+                    value
+                    onChange={e => handleChange(e, formFields.name)}
                   />
                 </label>
               ))}
