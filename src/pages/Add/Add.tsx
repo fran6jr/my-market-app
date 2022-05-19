@@ -223,7 +223,7 @@ const Add = () => {
                     id={field.inputId}
                     name={field.name}
                     type="number"
-                    value
+                    value={getValue(field.name, field.inputId)}
                     onChange={e => handleChange(e, formFields.name)}
                   />
                 </label>
