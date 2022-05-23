@@ -1,72 +1,14 @@
 import
 React,
-{ useState, useEffect }
-  from "react"
+{
+  useState,
+  useEffect
+} from "react"
 import './styles.scss'
 import { Product, ProductType } from "hooks/types";
-
-interface ProductForm {
-  type: ProductType
-  name: string
-  description: string
-  fields: {
-    label: string
-    name: string
-    inputId: string
-  }[]
-}
-
-const p: ProductForm[] = [
-  {
-    type: "dvd",
-    name: 'size"',
-    description: "Please, provide size",
-    fields: [
-      {
-        label: 'Size (MB)',
-        name: 'size',
-        inputId: 'size',
-      }
-    ],
-  },
-  {
-    type: "furniture",
-    name: 'dimensions',
-    description: "Please, provide dimensions",
-    fields: [
-      {
-        label: 'Height (CM)',
-        name: 'height',
-        inputId: 'height',
-      },
-      {
-        label: 'Width (CM)',
-        name: 'width',
-        inputId: 'width',
-      },
-      {
-        label: 'Length (CM)',
-        name: 'length',
-        inputId: 'length',
-      },
-    ],
-  },
-  {
-    type: "book",
-    name: 'weight',
-    description: "Please, provide weight",
-    fields: [
-      {
-        label: 'Weight (KG)',
-        name: 'weight',
-        inputId: 'weight',
-      }
-    ],
-  }
-]
-
-
-
+import useFormFields from "hooks/useFormFields";
+import useRequiredFormFields from "hooks/useRequiredFormFields";
+import useSelect from "hooks/useSelect";
 
 
 const Add = () => {
@@ -86,13 +28,13 @@ const Add = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
+
+
     // use php to add product to database
     const addToDatabase = () => {
       // add to database
     }
   }
-
-
 
   useEffect(() => {
     console.log(product)
@@ -129,6 +71,11 @@ const Add = () => {
     return product[field || name]
   }
 
+
+  const p = useFormFields();
+  const r = useRequiredFormFields();
+  const selectFields = useSelect();
+
   const formFields = p.find(p => p.type === productType)
 
   return (
@@ -153,39 +100,22 @@ const Add = () => {
       </div>
       <div className="form_container">
         <form id="product_form">
-          <label>
-            SKU
-            <input
-              id="sku"
-              name="sku"
-              type="text"
-              placeholder="sku"
-              value={product.sku}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
-            Name
-            <input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="name"
-              value={product.name}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
-            Price ($)
-            <input
-              id="price"
-              name="price"
-              type="number"
-              placeholder="price"
-              value={product.price}
-              onChange={handleChange}
-            />
-          </label>
+          {r.map(s => (
+            <label key={s.inputID}>
+              {s.label}
+              <input
+                id={s.inputID}
+                name={s.name}
+                type={s.type}
+                placeholder={s.placeholder}
+                value={product[s.name]}
+                onChange={handleChange}
+              />
+              {product[s.name] && <span>Please, submit required data</span>}
+              {}
+            </label>
+          ))}
+
           <label className="select_label">
             Type switcher
             <select
@@ -193,30 +123,15 @@ const Add = () => {
               id="productType"
               value={productType}
               onChange={handleProductType}
+              required
             >
-              <option
-                value="typeswitcher"
-              >
-                Type Switcher
+              {selectFields.map(selectField => (
+                <option key={selectField.inputId}
+                value={selectField.value}
+                >
+                {selectField.text}
               </option>
-              <option
-                id="DVD"
-                value="dvd"
-              >
-                DVD
-              </option>
-              <option
-                id="Furniture"
-                value="furniture"
-              >
-                Furniture
-              </option>
-              <option
-                id="Book"
-                value="book"
-              >
-                Book
-              </option>
+              ))}
             </select>
           </label>
           {formFields &&
@@ -242,16 +157,18 @@ const Add = () => {
         </form>
       </div>
       <p>
-        "NOTE: When Weight is active, all aspects of dimension should be null, same as with DVD"
+        <p>
+          NOTE: When a product type is selected, all aspects of other types should reset and be unaccessible."
         </p><p># All fields are mandatory for submission, missing values should trigger notification “Please, submit required data”
         </p><p># Implement input field value validation, invalid data must trigger notification “Please, provide the data of indicated type”
         </p><p># Notification messages should appear on the same page without reloading
         </p><p># The page must have a “Save” button to save the product. Once saved, return to the “Product List” page with the new product added.
         </p><p># The page must have a “Cancel” button to cancel adding the product action. Once canceled, returned to the “Product List” page with no new products added.
         </p><p># No additional dialogues like “Are you sure you want to Save / Cancel?”
+        </p>
       </p>
 
-    </div>
+    </div >
   )
 }
 

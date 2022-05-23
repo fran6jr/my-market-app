@@ -16,3 +16,17 @@ export type Dimension = {
 }
 
 export type ProductType = "dvd" | "book" | "furniture"
+
+export type RequiredFormFields = {
+  inputID: string
+  name: string
+  type: string
+  placeholder: string
+  label: string
+}
+
+export type SelectFields = {
+  inputId: string
+  value?: ProductType
+  text: string
+}
