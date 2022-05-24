@@ -42,7 +42,7 @@ const Home = () => {
 
       <div className="list_container">
         {products.map(product => {
-          const { sku, name, price, weight, size, dimensions } = product
+          const { sku, name, price, weight, size, width, height, length } = product
 
           return (
             <div
@@ -61,8 +61,8 @@ const Home = () => {
               <p>{price}$</p>
               {size && <p>{size}MB</p>}
               {weight && <p>{weight}KG</p>}
-              {dimensions && <p>Dimension: {`
-                ${dimensions.height}x${dimensions.width}x${dimensions.length}`
+              {width && <p>Dimension: {`
+                ${height}x${width}x${length}`
               }</p>}
             </div>
           )

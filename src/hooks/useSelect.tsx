@@ -4,8 +4,8 @@ const useSelect = (): SelectFields[] => {
     const selectFields: SelectFields[] = [
         {
             inputId: "",
-            value: undefined,
-            text: "Type Switcher"
+            value: "" as any,
+            text: "Type Switcher",
         },
         {
             inputId: "DVD",

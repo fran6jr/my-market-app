@@ -1,12 +1,10 @@
 import { ProductType } from "./types";
 
 export interface ProductForm {
-    type: ProductType
+    type?: ProductType
     name: string
-    description: string
-    fields: {
-        label: string
-        name: string
-        inputId: string
-    }[]
+    label: string
+    inputId: string
+    inputType: string
+    errorMessage?: string
 }

@@ -5,10 +5,13 @@ React,
   useEffect
 } from "react"
 import './styles.scss'
-import { Product, ProductType } from "hooks/types";
+import {
+  Product,
+  ProductType
+} from "hooks/types";
 import useFormFields from "hooks/useFormFields";
-import useRequiredFormFields from "hooks/useRequiredFormFields";
 import useSelect from "hooks/useSelect";
+
 
 
 const Add = () => {
@@ -17,66 +20,116 @@ const Add = () => {
     {
       sku: '',
       name: '',
-      price: undefined,
-      weight: undefined,
-      size: undefined,
-      dimensions: undefined
     })
+
+    const [error, setError] = useState<string>("");
+  const p = useFormFields();
 
   const [productType, setProductType] = useState<ProductType>()
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-
-
-
-    // use php to add product to database
-    const addToDatabase = () => {
-      // add to database
-    }
-  }
-
   useEffect(() => {
-    console.log(product)
-  }, [product])
+    setProduct({
+      sku: product.sku,
+      name: product.name,
+      price: product.price
+    })
+  }, [productType]);
 
-  const handleChange = (event: any, field = '') => {
-    const { name, value } = event.target;
-    if (field === "dimensions") {
-      setProduct(product => ({
-        ...product,
-        dimensions: {
-          ...(product.dimensions || {}),
-          [name]: value
-        }
-      } as any))
-      return
-    }
-    setProduct(product => ({
-      ...product,
-      [field || name]: value
-    }))
-  }
 
   const handleProductType = (event: any) => {
     const { value } = event.target;
     setProductType(value)
   }
 
-  const getValue = (field: string, name: string) => {
+ 
+useEffect(() => {
+  console.log({error});
+}, [error]);
 
-    if (field === "dimensions") {
-      return product.dimensions ? product.dimensions[name] : ''
+  const useForm = (): any => {
+
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+
+    const handleSubmit = (event: any) => {
+      event.preventDefault();
+      const { name, value } = event.target;
+
+      if (error) {
+        return;
+      }
+
+      console.log(product);
+
+      setIsSubmitting(true);
+
+      const addToDatabase = (product: Product) => {
+        // add to database
+      }
     }
-    return product[field || name]
+
+    
+    const handleChange = (event: any) => {
+      const { name, value } = event.target;
+
+      setProduct(product => ({
+        ...product,
+        [name]: value
+      }))
+
+      setIsSubmitting(false)
+    }
+
+    return {
+      handleChange,
+      handleSubmit,
+      isSubmitting
+    }
+  };
+
+  const { handleChange, handleSubmit, isSubmitting } = useForm();
+
+
+  const validate = (field: string): boolean => {
+    const value: string = product[field];
+
+    if (!isSubmitting)    
+      return true;
+
+    if (!value) {
+      setError("Please, submit required data");
+      return false;
+    }
+
+    console.log(field, "1");
+
+    const inputType = p.find(s => s.name === field)?.inputType;
+
+    // if (inputType === "number")
+    //   return !isNaN(parseInt(value));
+
+    if ((inputType === "text") && (/[^0-9a-zA-Z]/.test(value)))
+    {
+        setError("Please, provide the data of indicated type");
+        return false;
+    }
+    
+    if ((inputType === "number") && (/[^0-9]/.test(value)))
+    {
+        setError("Please, provide the data of indicated type");
+        return false;
+    }
+    
+      setError("");
+
+    return true;
   }
 
-
-  const p = useFormFields();
-  const r = useRequiredFormFields();
   const selectFields = useSelect();
 
-  const formFields = p.find(p => p.type === productType)
+  const requiredFields = p.filter(p => !p.type)
+  const optionalFields = p.filter(p => p.type === productType)
+
 
   return (
     <div className="addproduct">
@@ -85,8 +138,7 @@ const Add = () => {
         <div>
           <button
             type="submit"
-            form="add-product-form"
-            onClick={handleSubmit}
+            form="product_form"
           >
             SAVE
           </button>
@@ -99,20 +151,21 @@ const Add = () => {
         </div>
       </div>
       <div className="form_container">
-        <form id="product_form">
-          {r.map(s => (
-            <label key={s.inputID}>
-              {s.label}
+        <form id="product_form"
+          onSubmit={handleSubmit}>
+          {requiredFields?.map(field => (
+            <label key={field.inputId}>
+              {field.label}
               <input
-                id={s.inputID}
-                name={s.name}
-                type={s.type}
-                placeholder={s.placeholder}
-                value={product[s.name]}
+                id={field.inputId}
+                name={field.name}
+                type={field.inputType}
+                value={product[field.name]}
                 onChange={handleChange}
+              //required
               />
-              {product[s.name] && <span>Please, submit required data</span>}
-              {}
+              {!validate(field.name)
+                && <p className="error">{error}</p>}
             </label>
           ))}
 
@@ -127,47 +180,39 @@ const Add = () => {
             >
               {selectFields.map(selectField => (
                 <option key={selectField.inputId}
-                value={selectField.value}
+                  value={selectField.value}
                 >
-                {selectField.text}
-              </option>
+                  {selectField.text}
+                </option>
               ))}
             </select>
           </label>
-          {formFields &&
+          {productType && optionalFields &&
             <div
               className="product_form" >
-              {formFields?.fields.map(field => (
+              {optionalFields?.map(field => (
                 <label key={field.inputId}>
                   {field.label}
                   <input
                     id={field.inputId}
                     name={field.name}
-                    type="number"
-                    value={getValue(field.name, field.inputId)}
-                    onChange={e => handleChange(e, formFields.name)}
+                    type={field.inputType}
+                    value={product[field.name]}
+                    onChange={handleChange}
+                  //required
                   />
+                  {!validate(field.name)
+                    && <p className="error">{error}</p>}
                 </label>
               ))}
               <p>
-                {formFields.description}
+                dummy Text
               </p>
             </div>
           }
+
         </form>
       </div>
-      <p>
-        <p>
-          NOTE: When a product type is selected, all aspects of other types should reset and be unaccessible."
-        </p><p># All fields are mandatory for submission, missing values should trigger notification “Please, submit required data”
-        </p><p># Implement input field value validation, invalid data must trigger notification “Please, provide the data of indicated type”
-        </p><p># Notification messages should appear on the same page without reloading
-        </p><p># The page must have a “Save” button to save the product. Once saved, return to the “Product List” page with the new product added.
-        </p><p># The page must have a “Cancel” button to cancel adding the product action. Once canceled, returned to the “Product List” page with no new products added.
-        </p><p># No additional dialogues like “Are you sure you want to Save / Cancel?”
-        </p>
-      </p>
-
     </div >
   )
 }

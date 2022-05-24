@@ -6,13 +6,11 @@ const useProductList = (): Product[] => {
     sku: 'JVC20013',
     name: 'Achme Disc',
     price: 100,
-    dimensions: {
-      width: 24,
-      height: 56,
-      length: 70
-    }
+    width: 24,
+    height: 56,
+    length: 70
   }
-  
+
   let products: Product[] = new Array(12).fill(product)
   products = products.map((p, index) => ({
     ...p,
