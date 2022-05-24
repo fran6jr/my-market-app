@@ -22,10 +22,14 @@ const Add = () => {
       name: '',
     })
 
-    const [error, setError] = useState<string>("");
+  const [showError, setShowError] = useState<boolean>(false);
+
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   const p = useFormFields();
 
   const [productType, setProductType] = useState<ProductType>()
+
 
   useEffect(() => {
     setProduct({
@@ -39,69 +43,57 @@ const Add = () => {
   const handleProductType = (event: any) => {
     const { value } = event.target;
     setProductType(value)
+    setShowError(false);
   }
 
- 
-useEffect(() => {
-  console.log({error});
-}, [error]);
-
-  const useForm = (): any => {
-
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  useEffect(() => {
+    console.log({ product });
+  }, [product]);
 
 
-    const handleSubmit = (event: any) => {
-      event.preventDefault();
-      const { name, value } = event.target;
 
-      if (error) {
-        return;
-      }
 
-      console.log(product);
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
 
-      setIsSubmitting(true);
+    const checkFields = p.filter(p => !p.type || p.type === productType).map(p => p.name);
 
-      const addToDatabase = (product: Product) => {
-        // add to database
-      }
+    if (checkFields.some(key => validate(key))) {
+      setShowError(true);
+      return;
     }
 
-    
-    const handleChange = (event: any) => {
-      const { name, value } = event.target;
+    console.log(product);
 
-      setProduct(product => ({
-        ...product,
-        [name]: value
-      }))
+    setIsSubmitting(true);
 
-      setIsSubmitting(false)
+    const addToDatabase = (product: Product) => {
+      // add to database
     }
-
-    return {
-      handleChange,
-      handleSubmit,
-      isSubmitting
-    }
-  };
-
-  const { handleChange, handleSubmit, isSubmitting } = useForm();
+  }
 
 
-  const validate = (field: string): boolean => {
+  const handleChange = (event: any) => {
+    const { name, value, type } = event.target;
+
+    setShowError(false);
+
+    console.log({ type });
+
+    setProduct(product => ({
+      ...product,
+      [name]: type === "number" ? parseFloat(value) : value
+    }))
+
+    setIsSubmitting(false)
+  }
+
+
+  const validate = (field: string): string | undefined => {
     const value: string = product[field];
 
-    if (!isSubmitting)    
-      return true;
-
-    if (!value) {
-      setError("Please, submit required data");
-      return false;
-    }
-
-    console.log(field, "1");
+    if (!value)
+      return "Please, submit required data";
 
     const inputType = p.find(s => s.name === field)?.inputType;
 
@@ -109,26 +101,21 @@ useEffect(() => {
     //   return !isNaN(parseInt(value));
 
     if ((inputType === "text") && (/[^0-9a-zA-Z]/.test(value)))
-    {
-        setError("Please, provide the data of indicated type");
-        return false;
-    }
-    
-    if ((inputType === "number") && (/[^0-9]/.test(value)))
-    {
-        setError("Please, provide the data of indicated type");
-        return false;
-    }
-    
-      setError("");
+      return "Please, provide the data of indicated type";
 
-    return true;
   }
 
   const selectFields = useSelect();
+  const [attributes, setAttributes] = useState<string>("");
 
   const requiredFields = p.filter(p => !p.type)
   const optionalFields = p.filter(p => p.type === productType)
+
+  useEffect(() => {
+    const sAttributes = p.find(attr => attr.type === productType)?.specialAttributes;
+    if (sAttributes)
+      setAttributes(sAttributes);
+  }, [productType]);
 
 
   return (
@@ -153,21 +140,27 @@ useEffect(() => {
       <div className="form_container">
         <form id="product_form"
           onSubmit={handleSubmit}>
-          {requiredFields?.map(field => (
-            <label key={field.inputId}>
-              {field.label}
-              <input
-                id={field.inputId}
-                name={field.name}
-                type={field.inputType}
-                value={product[field.name]}
-                onChange={handleChange}
-              //required
-              />
-              {!validate(field.name)
-                && <p className="error">{error}</p>}
-            </label>
-          ))}
+          {requiredFields?.map(field => {
+            const error = validate(field.name);
+            return (
+              <label key={field.inputId}>
+                {field.label}
+                <div>
+                  <input
+                    id={field.inputId}
+                    name={field.name}
+                    type={field.inputType}
+                    step={field.step}
+                    value={product[field.name]}
+                    onChange={handleChange}
+                  //required
+                  />
+                  {showError && error
+                    && <p className="error">{error}</p>}
+                </div>
+              </label>
+            )
+          })}
 
           <label className="select_label">
             Type switcher
@@ -190,24 +183,29 @@ useEffect(() => {
           {productType && optionalFields &&
             <div
               className="product_form" >
-              {optionalFields?.map(field => (
-                <label key={field.inputId}>
-                  {field.label}
-                  <input
-                    id={field.inputId}
-                    name={field.name}
-                    type={field.inputType}
-                    value={product[field.name]}
-                    onChange={handleChange}
-                  //required
-                  />
-                  {!validate(field.name)
-                    && <p className="error">{error}</p>}
-                </label>
-              ))}
-              <p>
-                dummy Text
-              </p>
+              {optionalFields?.map(field => {
+                const error = validate(field.name);
+                return (
+                  <label key={field.inputId}>
+                    {field.label}
+                    <div>
+                      <input
+                        id={field.inputId}
+                        name={field.name}
+                        type={field.inputType}
+                        step={field.step}
+                        value={product[field.name]}
+                        onChange={handleChange}
+                      //required
+                      />
+                      {showError && error
+                        && <p className="error">{error}</p>}
+                    </div>
+                  </label>
+                )
+              })}
+              {attributes &&
+                <p>{attributes}</p>}
             </div>
           }
 

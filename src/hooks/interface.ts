@@ -6,5 +6,6 @@ export interface ProductForm {
     label: string
     inputId: string
     inputType: string
-    errorMessage?: string
+    step?: string
+    specialAttributes?: string
 }

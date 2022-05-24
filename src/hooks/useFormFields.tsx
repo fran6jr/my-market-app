@@ -8,6 +8,8 @@ const useFormFields = (): ProductForm[] => {
       label: 'Size (MB)',
       inputId: 'size',
       inputType: 'number',
+      step: "0.01",
+      specialAttributes: "Please, provide size",
     },
     {
       type: "furniture",
@@ -15,6 +17,8 @@ const useFormFields = (): ProductForm[] => {
       label: 'Height (CM)',
       inputId: 'height',
       inputType: 'number',
+      step: "0.01",
+      specialAttributes: "Please, provide dimensions in HxWxL format",
     }, 
     {
       type: "furniture",
@@ -22,6 +26,8 @@ const useFormFields = (): ProductForm[] => {
       label: 'Width (CM)',
       inputId: 'width',
       inputType: 'number',
+      step: "0.01",
+      specialAttributes: "Please, provide dimensions in HxWxL format",
     },
     {
       type: "furniture",
@@ -29,6 +35,8 @@ const useFormFields = (): ProductForm[] => {
       label: 'Length (CM)',
       inputId: 'length',
       inputType: 'number',
+      step: "0.01",
+      specialAttributes: "Please, provide dimensions in HxWxL format",
     },
     {
       type: "book",
@@ -36,6 +44,8 @@ const useFormFields = (): ProductForm[] => {
       label: 'Weight (KG)',
       inputId: 'weight',
       inputType: 'number',
+      step: "0.01",
+      specialAttributes: "Please, provide weight",
     },
     {
       name: "sku",
@@ -54,6 +64,7 @@ const useFormFields = (): ProductForm[] => {
       label: "Price ($)",
       inputId: "price",
       inputType: 'number',
+      step: "0.01",
     }
   ]
 
