@@ -68,6 +68,7 @@ const Home = () => {
           )
         })}
       </div>
+      <h5 className="footer">Scandiweb Test assignment</h5>
     </div>
   )
 }

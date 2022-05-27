@@ -11,6 +11,7 @@ import {
 } from "hooks/types";
 import useFormFields from "hooks/useFormFields";
 import useSelect from "hooks/useSelect";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -30,6 +31,7 @@ const Add = () => {
 
   const [productType, setProductType] = useState<ProductType>()
 
+  const navigate = useNavigate();
 
   useEffect(() => {
     setProduct({
@@ -88,6 +90,14 @@ const Add = () => {
     setIsSubmitting(false)
   }
 
+  const handleCancel = (event: any) => {
+
+    event.preventDefault();
+
+    navigate("/");
+
+  }
+
 
   const validate = (field: string): string | undefined => {
     const value: string = product[field];
@@ -132,6 +142,7 @@ const Add = () => {
           <button
             id='#cancel-btn'
             className="cancel_button"
+            onClick={handleCancel}
           >
             CANCEL
           </button>
@@ -211,6 +222,7 @@ const Add = () => {
 
         </form>
       </div>
+        <h5 className="footer">Scandiweb Test assignment</h5>
     </div >
   )
 }

@@ -31,6 +31,16 @@ $myBorder: 1px solid black;
     }
   }
 
+  .footer {
+    border-top: $myBorder;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    right: 30px;
+    left: 30px;
+    bottom: 30px;
+  }
+
   .form_container {
     margin-top: 30px;
 
