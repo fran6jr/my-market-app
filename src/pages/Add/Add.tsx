@@ -11,7 +11,13 @@ import {
 } from "hooks/types";
 import useFormFields from "hooks/useFormFields";
 import useSelect from "hooks/useSelect";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+const attributes: Record<string, string> = {
+  dvd: "Please, provide size",
+  furniture: "Please, provide dimensions in HxWxL format",
+  book: "Please, provide weight",
+}
 
 
 
@@ -90,14 +96,6 @@ const Add = () => {
     setIsSubmitting(false)
   }
 
-  const handleCancel = (event: any) => {
-
-    event.preventDefault();
-
-    navigate("/");
-
-  }
-
 
   const validate = (field: string): string | undefined => {
     const value: string = product[field];
@@ -116,17 +114,12 @@ const Add = () => {
   }
 
   const selectFields = useSelect();
-  const [attributes, setAttributes] = useState<string>("");
+  
 
   const requiredFields = p.filter(p => !p.type)
   const optionalFields = p.filter(p => p.type === productType)
 
-  useEffect(() => {
-    const sAttributes = p.find(attr => attr.type === productType)?.specialAttributes;
-    if (sAttributes)
-      setAttributes(sAttributes);
-  }, [productType]);
-
+  const attribute = attributes[productType || ""];
 
   return (
     <div className="addproduct">
@@ -139,13 +132,15 @@ const Add = () => {
           >
             SAVE
           </button>
-          <button
+
+          <Link to='/'>
+            <button
             id='#cancel-btn'
             className="cancel_button"
-            onClick={handleCancel}
-          >
-            CANCEL
-          </button>
+            >
+              CANCEL
+              </button>
+          </Link>
         </div>
       </div>
       <div className="form_container">
@@ -215,8 +210,8 @@ const Add = () => {
                   </label>
                 )
               })}
-              {attributes &&
-                <p>{attributes}</p>}
+              {attribute &&
+                <p>{attribute}</p>}
             </div>
           }
 

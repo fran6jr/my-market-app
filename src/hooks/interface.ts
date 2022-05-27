@@ -7,5 +7,4 @@ export interface ProductForm {
     inputId: string
     inputType: string
     step?: string
-    specialAttributes?: string
 }
