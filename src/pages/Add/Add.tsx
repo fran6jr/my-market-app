@@ -11,7 +11,7 @@ import {
 } from "hooks/types";
 import useFormFields from "hooks/useFormFields";
 import useSelect from "hooks/useSelect";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const attributes: Record<string, string> = {
   dvd: "Please, provide size",
@@ -31,13 +31,9 @@ const Add = () => {
 
   const [showError, setShowError] = useState<boolean>(false);
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
   const p = useFormFields();
 
   const [productType, setProductType] = useState<ProductType>()
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     setProduct({
@@ -73,8 +69,6 @@ const Add = () => {
 
     console.log(product);
 
-    setIsSubmitting(true);
-
     const addToDatabase = (product: Product) => {
       // add to database
     }
@@ -92,8 +86,6 @@ const Add = () => {
       ...product,
       [name]: type === "number" ? parseFloat(value) : value
     }))
-
-    setIsSubmitting(false)
   }
 
 
