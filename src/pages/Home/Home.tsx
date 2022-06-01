@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import './styles.scss'
-import getList from "../../hooks/getList"
+import useGetList from "../../hooks/useGetList"
 
 const Home = () => {
 
@@ -9,7 +9,7 @@ const Home = () => {
   console.log("begin");
 
   const [selected, setSelected] = useState<string[]>([])
-  const { products, error } = getList()
+  const { products, error } = useGetList();
 
     if (error) return <p>{error}</p>;
 

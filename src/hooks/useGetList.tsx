@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Lists, Product } from "./types"
 
-const getList = (): Lists => {
+const useGetList = (): Lists => {
   // const product: Product = {
   //   sku: 'JVC20013',
   //   name: 'Achme Disc',
@@ -23,17 +23,17 @@ const getList = (): Lists => {
 
 
 
-  // const [products, setProducts] = useState<Product[]>([]);
-  // const [error, setError] = useState<string>('');
+  const [products, setProducts] = useState<Product[]>([]);
+  const [error, setError] = useState<string>('');
 
-  // useEffect(() => {
-  //   fetch(`https://b712-34-125-149-235.ngrok.io/index.php/product/list`)
-  //     .then((release) => release.json())
-  //     .then(setProducts)
-  //     .catch(setError);
-  // }, []);
+  useEffect(() => {
+    fetch(`https://b712-34-125-149-235.ngrok.io/index.php/product/list`)
+      .then((release) => release.json())
+      .then(setProducts)
+      .catch(setError);
+  }, []);
 
-  // console.log({ products });
+  console.log({ products });
 
   return {
     products: products,
@@ -43,4 +43,4 @@ const getList = (): Lists => {
   // return productsState
 }
 
-export default getList;
+export default useGetList;
