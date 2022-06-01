@@ -1,12 +1,17 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import './styles.scss'
-import useProductList from "../../hooks/useProductList"
+import getList from "../../hooks/getList"
 
 const Home = () => {
 
+  
+  console.log("begin");
+
   const [selected, setSelected] = useState<string[]>([])
-  const products = useProductList()
+  const { products, error } = getList()
+
+    if (error) return <p>{error}</p>;
 
   const onSelect = (sku: string) => {
     const prev = [...selected]
@@ -18,9 +23,14 @@ const Home = () => {
       const p = prev.slice(index, 1)
       setSelected([...p])
     }
+
+    console.log(selected);
   }
 
-  const onMassDelete = () => {}
+  const onMassDelete = () => {
+    // TODO: implement mass delete
+    // using selected
+  }
 
   return (
     <div className="home">
