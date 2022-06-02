@@ -35,7 +35,9 @@ const Add = () => {
 
   const p = useFormFields();
 
-  const [productType, setProductType] = useState<ProductType>()
+  const [productType, setProductType] = useState<ProductType>();
+
+  const postAdd = usePostAdd();
 
   useEffect(() => {
     setProduct({
@@ -71,16 +73,16 @@ const Add = () => {
 
     console.log(product);
 
-    const error = usePostAdd();
+    const postProduct = postAdd(product);
 
-    console.log(error);
-    
-    if (!error) {
+    console.log(postProduct);
+
+    if (!postProduct) {
       window.location.href = '/';
     }
 
-    setShowError(true);
-    setGlobalError(error);
+    //setShowError(true);
+    setGlobalError(JSON.stringify(postProduct, null, 2));
 
   }
 
@@ -113,7 +115,7 @@ const Add = () => {
   }
 
   const selectFields = useSelect();
-  
+
 
   const requiredFields = p.filter(p => !p.type)
   const optionalFields = p.filter(p => p.type === productType)
@@ -134,11 +136,11 @@ const Add = () => {
 
           <Link to='/'>
             <button
-            id='#cancel-btn'
-            className="cancel_button"
+              id='#cancel-btn'
+              className="cancel_button"
             >
               CANCEL
-              </button>
+            </button>
           </Link>
         </div>
       </div>
@@ -213,11 +215,12 @@ const Add = () => {
                 <p>{attribute}</p>}
             </div>
           }
-          {showError && globalError &&
-            <p className="error">{globalError}</p>}
+          {/* {globalError &&
+            <p className="error">{globalError}</p>
+          } */}
         </form>
       </div>
-        <h5 className="footer">Scandiweb Test assignment</h5>
+      <h5 className="footer">Scandiweb Test assignment</h5>
     </div >
   )
 }

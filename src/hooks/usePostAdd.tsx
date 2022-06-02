@@ -2,27 +2,34 @@ import { useState, useEffect } from "react"
 import { Product } from "./types"
 
 
-const usePostAdd = (product?: Product): string => {
-  const [error, setError] = useState<string>('');
+const usePostAdd = () => {
 
-  useEffect(() => {
-    fetch("https://99d4-34-125-149-235.ngrok.io/index.php/product/add",
-    { method: 'POST',
+  const postAdd = async (product: Product) => {
+    console.log("here 1");
+    const response = await fetch('https://99d4-34-125-149-235.ngrok.io/index.php/product/add', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(product)
-    })
-      .then(response => response.json())
-      .then(setError)
-      .catch(e => {
-        setError(e.message);
-        console.log(e.message);
-      });
-  }, [product]);
+    });
 
-  return JSON.stringify(error, null, 2);
+    console.log("here 2");
+    const data = await response.json();
+    console.log("after here");
+
+    if (response.status !== 200) {
+      console.log("here 3");
+      console.log(data.message);
+      return data.message;
+    }
+
+    return "";
+  }
+
+  return postAdd;
   
 }
+
 
 export default usePostAdd;
