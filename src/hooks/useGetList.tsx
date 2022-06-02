@@ -6,7 +6,7 @@ const useGetList = (): Lists => {
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    fetch("https://99d4-34-125-149-235.ngrok.io/index.php/product/list",
+    fetch("https://408f-34-125-149-235.ngrok.io/index.php/product/list",
     { method: 'GET',} )
       .then(response => response.json())
       .then(setProducts)
