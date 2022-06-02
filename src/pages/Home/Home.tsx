@@ -11,7 +11,7 @@ const Home = () => {
   const [selected, setSelected] = useState<string[]>([])
   const { products, error } = useGetList();
 
-    if (error) return <p>{error}</p>;
+    //if (error) return <p>{error}</p>;
 
   const onSelect = (sku: string) => {
     const prev = [...selected]

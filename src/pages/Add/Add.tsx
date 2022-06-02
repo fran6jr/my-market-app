@@ -12,6 +12,7 @@ import {
 import useFormFields from "hooks/useFormFields";
 import useSelect from "hooks/useSelect";
 import { Link } from "react-router-dom";
+import usePostAdd from "hooks/usePostAdd";
 
 const attributes: Record<string, string> = {
   dvd: "Please, provide size",
@@ -30,6 +31,7 @@ const Add = () => {
     })
 
   const [showError, setShowError] = useState<boolean>(false);
+  const [globalError, setGlobalError] = useState<string>('');
 
   const p = useFormFields();
 
@@ -69,9 +71,17 @@ const Add = () => {
 
     console.log(product);
 
-    const addToDatabase = (product: Product) => {
-      // add to database
+    const error = usePostAdd();
+
+    console.log(error);
+    
+    if (!error) {
+      window.location.href = '/';
     }
+
+    setShowError(true);
+    setGlobalError(error);
+
   }
 
 
@@ -96,9 +106,6 @@ const Add = () => {
       return "Please, submit required data";
 
     const inputType = p.find(s => s.name === field)?.inputType;
-
-    // if (inputType === "number")
-    //   return !isNaN(parseInt(value));
 
     if ((inputType === "text") && (/[^0-9a-zA-Z]/.test(value)))
       return "Please, provide the data of indicated type";
@@ -206,7 +213,8 @@ const Add = () => {
                 <p>{attribute}</p>}
             </div>
           }
-
+          {showError && globalError &&
+            <p className="error">{globalError}</p>}
         </form>
       </div>
         <h5 className="footer">Scandiweb Test assignment</h5>
