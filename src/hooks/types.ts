@@ -10,11 +10,6 @@ export type Product = {
   [key: string]: any
 }
 
-export type Lists = {
-  products: Product[] 
-    error: string | null
-}
-
 export type ProductType = "dvd" | "book" | "furniture"
 
 

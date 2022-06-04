@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { baseUrl } from "./baseUrl";
-import { Lists, Product } from "./types"
+import { Product } from "./types"
 
 const useGetList = (): Product[] => {
   const [products, setProducts] = useState<Product[]>([]);
