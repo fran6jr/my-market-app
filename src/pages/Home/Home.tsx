@@ -35,8 +35,7 @@ const Home = () => {
 
 
     deleteProducts(selected);
-
-    if(!window.confirm("Are you sure?")) return;
+    setSelected([]);
   }
 
   return (
