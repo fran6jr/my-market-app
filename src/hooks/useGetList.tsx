@@ -1,27 +1,28 @@
 import { useState, useEffect } from "react"
+import { baseUrl } from "./baseUrl";
 import { Lists, Product } from "./types"
 
-const useGetList = (): Lists => {
+const useGetList = (): Product[] => {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    fetch("https://86e2-34-125-149-235.ngrok.io/index.php/product/list",
+    fetch(baseUrl +"/list",
     { method: 'GET',} )
       .then(response => response.json())
       .then(setProducts)
-      .catch(e => {
-        setError(e.message);
-        console.log(e.message);
-      });
+      .catch(setError);
   }, []);
+
+  if (error) {
+    throw new Error(error);
+  }
 
   console.log({ products });
 
-  return {
-    products: products,
-    error: JSON.stringify(error, null, 2)
-  };
+  return products;
+  //   error: JSON.stringify(error, null, 2)
+  // };
 
 }
 

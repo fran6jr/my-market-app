@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import './styles.scss'
 import useGetList from "../../hooks/useGetList"
+import { useDelete } from "hooks/useDelete"
 
 const Home = () => {
 
@@ -9,9 +10,9 @@ const Home = () => {
   console.log("begin");
 
   const [selected, setSelected] = useState<string[]>([])
-  const { products, error } = useGetList();
-
-    //if (error) return <p>{error}</p>;
+  
+  const products = useGetList();
+  const deleteProducts = useDelete();
 
   const onSelect = (sku: string) => {
     const prev = [...selected]
@@ -28,8 +29,14 @@ const Home = () => {
   }
 
   const onMassDelete = () => {
-    // TODO: implement mass delete
-    // using selected
+ 
+    console.log(selected);
+    if(!selected.length) return;
+
+
+    deleteProducts(selected);
+
+    if(!window.confirm("Are you sure?")) return;
   }
 
   return (

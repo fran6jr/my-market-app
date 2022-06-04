@@ -44,8 +44,14 @@ const Add = () => {
       sku: product.sku,
       name: product.name,
       price: product.price
-    })
+    });
   }, [productType]);
+
+// useffect to ensure that global error is cleared when product changes
+  useEffect(() => {
+    setGlobalError('');
+  }
+  , [product]);
 
 
   const handleProductType = (event: any) => {
@@ -73,17 +79,14 @@ const Add = () => {
 
     console.log(product);
 
-    const postProduct = postAdd(product);
-
-    console.log(postProduct);
-
-    if (!postProduct) {
+    const post = postAdd(product);
+    if (!post) {
       window.location.href = '/';
     }
 
-    //setShowError(true);
-    setGlobalError(JSON.stringify(postProduct, null, 2));
-
+    if (typeof post === 'string') {
+      setGlobalError(post);
+    }
   }
 
 
@@ -147,6 +150,7 @@ const Add = () => {
       <div className="form_container">
         <form id="product_form"
           onSubmit={handleSubmit}>
+          {globalError && <p className="error">{globalError}</p>}
           {requiredFields?.map(field => {
             const error = validate(field.name);
             return (

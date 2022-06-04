@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react"
+import { baseUrl } from "./baseUrl";
 import { Product } from "./types"
-
 
 const usePostAdd = () => {
 
   const postAdd = async (product: Product) => {
     console.log("here 1");
-    const response = await fetch('https://86e2-34-125-149-235.ngrok.io/index.php/product/add', {
+    const response = await fetch(baseUrl + '/add', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -21,10 +20,10 @@ const usePostAdd = () => {
     if (response.status !== 200) {
       console.log("here 3");
       console.log(data.message);
-      return data.message;
+      return JSON.stringify(data.message);
     }
 
-    return "";
+    return null;
   }
 
   return postAdd;
