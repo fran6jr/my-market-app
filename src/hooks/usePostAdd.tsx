@@ -6,7 +6,7 @@ const usePostAdd = () => {
 
   const postAdd = async (product: Product) => {
     console.log("here 1");
-    const response = await fetch('https://408f-34-125-149-235.ngrok.io/index.php/product/add', {
+    const response = await fetch('https://86e2-34-125-149-235.ngrok.io/index.php/product/add', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
