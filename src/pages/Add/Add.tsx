@@ -47,11 +47,11 @@ const Add = () => {
     });
   }, [productType]);
 
-// useffect to ensure that global error is cleared when product changes
+  // useffect to ensure that global error is cleared when product changes
   useEffect(() => {
     setGlobalError('');
   }
-  , [product]);
+    , [product]);
 
 
   const handleProductType = (event: any) => {
@@ -67,7 +67,7 @@ const Add = () => {
 
 
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
 
     const checkFields = p.filter(p => !p.type || p.type === productType).map(p => p.name);
@@ -79,15 +79,18 @@ const Add = () => {
 
     console.log(product);
 
-    const post = postAdd(product);
-    if (!post) {
+    const error = await postAdd(product);
+
+    if (!error) {
+      console.log('success');
       window.location.href = '/';
     }
 
-    if (typeof post === 'string') {
-      setGlobalError(post);
-    }
+    setGlobalError(error);
+
   }
+
+  console.log(globalError);
 
 
   const handleChange = (event: any) => {

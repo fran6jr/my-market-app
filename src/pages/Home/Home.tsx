@@ -3,15 +3,18 @@ import { Link } from "react-router-dom"
 import './styles.scss'
 import useGetList from "../../hooks/useGetList"
 import { useDelete } from "hooks/useDelete"
+import { Product } from "hooks/types"
 
 const Home = () => {
 
-  
+
   console.log("begin");
 
-  const [selected, setSelected] = useState<string[]>([])
-  
+  const [selected, setSelected] = useState<string[]>([]);
+
   const products = useGetList();
+
+
   const deleteProducts = useDelete();
 
   const onSelect = (sku: string) => {
@@ -28,14 +31,23 @@ const Home = () => {
     console.log(selected);
   }
 
-  const onMassDelete = () => {
- 
+  const onMassDelete = async () => {
+
     console.log(selected);
-    if(!selected.length) return;
+    if (!selected.length) return;
 
 
-    deleteProducts(selected);
-    setSelected([]);
+    const error = await deleteProducts(selected);
+
+    if (!error) {
+      products.map(p => {
+        selected.includes(p.sku) &&
+          products.splice(products.indexOf(p), 1)
+      })
+      console.log("success");
+      setSelected([]);
+    }
+
   }
 
   return (

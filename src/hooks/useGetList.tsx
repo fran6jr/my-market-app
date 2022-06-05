@@ -4,25 +4,18 @@ import { Product } from "./types"
 
 const useGetList = (): Product[] => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     fetch(baseUrl +"/list",
     { method: 'GET',} )
       .then(response => response.json())
       .then(setProducts)
-      .catch(setError);
+      .catch((e) => console.log(e));
   }, []);
-
-  if (error) {
-    throw new Error(error);
-  }
 
   console.log({ products });
 
   return products;
-  //   error: JSON.stringify(error, null, 2)
-  // };
 
 }
 

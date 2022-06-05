@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { baseUrl } from "./baseUrl";
 
 export const useDelete = () => {
+  const [error, setError] = useState<boolean>(false);
 
   const deleteProducts = async (skus: string[]) => {
     const response = await fetch(baseUrl + '/delete', {
@@ -10,12 +12,11 @@ export const useDelete = () => {
       },
       body: JSON.stringify(skus)
     });
-
-    const data = await response.json();
-
-    if (response.status !== 200) {
-      return data.message;
+    if (!response.ok) {
+      setError(true);
     }
+
+    return error;
 
   }
 
