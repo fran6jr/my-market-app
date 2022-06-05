@@ -4,10 +4,8 @@ import { Product } from "./types"
 
 
 const usePostAdd = () => {
-  const [error, setError] = useState<string>('');
 
   const postAdd = async (product: Product) => {
-
     try {
       const response = await fetch(baseUrl + "/add",
         {
@@ -19,14 +17,14 @@ const usePostAdd = () => {
         }
       );
       if (!response.ok) {
-        setError("Product could not be added, please try again or check if product exists");
+        return "Product could not be added, please try again or check if product exists";
       }
     }
     catch (e) {
       console.log(e);
     }
 
-    return error;
+    return "";
 
   }
 
